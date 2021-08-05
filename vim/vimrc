@@ -1,0 +1,27 @@
+execute pathogen#infect()
+colorscheme molokai
+let g:rehash256 = 1
+let g:airline_theme='molokai'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+filetype plugin indent on
+syntax on
+
+set autoindent
+:set colorcolumn=80,120
+set cursorline
+set mouse-=a
+set number
+set ruler
+set showcmd
+set showmatch
+set wildmenu   
+
+set incsearch
+set hlsearch
+
+set expandtab
+set softtabstop=2
+set tabstop=2
+
+hi Normal ctermbg=NONE

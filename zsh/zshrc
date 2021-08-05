@@ -1,0 +1,116 @@
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+autoload -U +X bashcompinit && bashcompinit
+
+# gnome-keyring...
+if [[ "$DESKTOP_SESSION" == "i3" ]]; then
+    eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
+    export SSH_AUTH_SOCK
+fi
+
+
+# dotnet 2.0 compat
+export DOTNET_ROLL_FORWARD_ON_NO_CANDIDATE_FX=2
+
+export ZSH="/home/meyer/.ohmyzsh"
+plugins=(dnf dotenv dotnet encode64 fasd git gpg-agent helm kubectl node ssh-agent sudo systemd terraform vault yarn zsh_reload zsh-interactive-cd zsh-navigation-tools)
+
+# auto-source .env files
+ZSH_DOTENV_FILE=.env
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+zstyle ':completion:*' special-dirs true
+COMPLETION_WAITING_DOTS="true"
+
+# SSH
+export SSH_KEY_PATH="~/.ssh/id_rsa"
+zstyle :omz:plugins:ssh-agent agent-forwarding on
+zstyle :omz:plugins:ssh-agent identities id_rsa
+zstyle :omz:plugins:ssh-agent ssh-add-args -K -c -a $SSH_AUTH_SOCK
+zstyle :omz:plugins:keychain agents gpg,ssh
+zstyle :omz:plugins:keychain identities id_rsa
+zstyle :omz:plugins:keychain options --quiet
+
+# load oh-my-zsh
+source $ZSH/oh-my-zsh.sh
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Aliases
+alias ls="lsd"
+alias kubens="kubectl-ns" # krew
+alias kubectx="kubectl-ctx" # krew
+alias vlogin="vault login -method=oidc"
+
+EXTRA_PATH=(
+  "$HOME/.cargo/bin"
+  "$HOME/.krew/bin"
+  "/snap/bin"
+  "$HOME/.yarn/bin"
+  "$HOME/.config/yarn/global/node_modules/.bin"
+)
+export PATH="$PATH:${(j#:#)EXTRA_PATH}"
+
+# homebrew
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+
+#
+# Modell Aachen
+#
+typeset -A SERVERS
+SERVERS[demo-riga]="gcfra02-www0001.int.modac.eu"
+SERVERS[demo-sydney]="gcfra02-www0005.int.modac.eu"
+export SERVERS
+export VAULT_ADDR="https://vault.modac.cloud"
+export VAULT_ROLE="root-support"
+
+# Modac Bash
+[ -f ~/.modac-bash/bashrc.sh ] && source ~/.modac-bash/bashrc.sh
+
+function create_temporary_key() {
+  role=$VAULT_ROLE
+  if [ $# -eq 1 ]; then role=$1; fi
+
+  pubkey=$(cat ~/.ssh/id_rsa.pub)
+  vault write -address=$VAULT_ADDR -field=signed_key ssh/sign/$role public_key=$pubkey | tee ~/.ssh/vault-cert.pub > /dev/null
+  chmod 0600 ~/.ssh/vault-cert.pub
+}
+
+function vssh() {
+  if [ $# -eq 0 ] || [ $# -gt 2 ]; then echo "Invalud arguments"; return; fi
+
+  role=$VAULT_ROLE
+  target=$1;
+
+  if [ $# -eq 1 ]
+  then
+      create_temporary_key
+  else
+      create_temporary_key $1
+      target=$2
+  fi
+
+  ssh -i ~/.ssh/vault-cert.pub -l root $target && rm ~/.ssh/vault-cert.pub
+}
+
+function vscp() {
+  if [ $# -lt 2 ] || [ $# -gt 3 ]; then echo "Invalud arguments"; return; fi
+
+  role=$VAULT_ROLE
+  src=$1;
+  target=$2
+
+  if [ $# -eq 2 ]
+  then
+      create_temporary_key
+  else
+      create_temporary_key $1
+      src=$2
+      target=$3
+  fi
+
+  scp -i ~/.ssh/vault-cert.pub -l $src $target && rm ~/.ssh/vault-cert.pub
+}
+

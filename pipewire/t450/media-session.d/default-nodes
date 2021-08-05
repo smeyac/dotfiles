@@ -1,0 +1,4 @@
+{
+ "default.configured.audio.sink": { "name": "bluez_output.60_AB_D2_25_9A_61.a2dp-sink" },
+ "default.configured.audio.source": { "name": "alsa_input.usb-046d_Logitech_BRIO_F90C3D71-03.analog-stereo" }
+}
