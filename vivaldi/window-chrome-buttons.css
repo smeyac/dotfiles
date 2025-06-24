@@ -1,0 +1,23 @@
+.window-buttongroup {
+  padding: 3px;
+}
+
+button.window-maximize,
+button.window-minimize {
+  display: none;
+}
+
+button.window-close {
+  font-weight: bold !important;
+  height: 32px !important;
+  width: 64px !important;
+
+  padding: 5px !important;
+  transition: background-color .2s ease-in, color .2s;
+}
+
+button.window-close:hover {
+  background-color: #c01c28 !important;
+  color: #efeeee !important;
+}
+

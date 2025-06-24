@@ -1,0 +1,20 @@
+#tabs-container.left,
+#tabs-container.right {
+    position: absolute !important;
+    top: 0;
+    bottom: 64px;
+    height: 100%;
+    z-index: 25;
+    width: 250px; /*Wide state width*/
+    transition: width .2s ease-in-out;
+    opacity: .9;
+}
+#tabs-container.left:not(:hover),
+#tabs-container.right:not(:hover) {
+    width: 30px !important; 
+}
+
+/* Tab Background Transparency Fix */
+.tab-strip {
+    background-color: var(--colorAccentBg);
+}

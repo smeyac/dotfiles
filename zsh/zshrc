@@ -4,61 +4,39 @@ fi
 
 autoload -U +X bashcompinit && bashcompinit
 
-# gnome-keyring...
-if [[ "$DESKTOP_SESSION" == "i3" ]]; then
-    eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
-    export SSH_AUTH_SOCK
-fi
-
-
-# dotnet 2.0 compat
-export DOTNET_ROLL_FORWARD_ON_NO_CANDIDATE_FX=2
+export QT_QPA_PLATFORM=wayland
+export GDK_BACKEND=wayland
+export SUDO_EDITOR=vim
 
 export ZSH="/home/meyer/.ohmyzsh"
-#plugins=(dnf dotenv dotnet encode64 fasd git gpg-agent helm kubectl node ssh-agent sudo systemd terraform vault yarn zsh-interactive-cd zsh-navigation-tools)
-plugins=(colorize docker-compose dotenv dotnet encode64 fasd git gpg-agent helm keychain kubectl node sudo systemd terraform vault yarn)
+plugins=(archlinux colorize dotenv dotnet encode64 fasd git gpg-agent ssh-agent node nvm sudo systemd tmux yarn)
 
-# auto-source .env files
 ZSH_DOTENV_FILE=.env
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 zstyle ':completion:*' special-dirs true
 COMPLETION_WAITING_DOTS="true"
 
-# SSH
 export SSH_KEY_PATH="~/.ssh/id_rsa"
-#zstyle :omz:plugins:ssh-agent agent-forwarding on
-#zstyle :omz:plugins:ssh-agent identities id_rsa
-#zstyle :omz:plugins:ssh-agent ssh-add-args -K -c -a $SSH_AUTH_SOCK
-#zstyle :omz:plugins:ssh-agent ssh-add-args -K -c $SSH_AUTH_SOCK
-zstyle :omz:plugins:keychain agents gpg,ssh
-zstyle :omz:plugins:keychain identities id_rsa
-zstyle :omz:plugins:keychain options --quiet
+zstyle :omz:plugins:ssh-agent agent-forwarding yes
+zstyle :omz:plugins:ssh-agent identities id_rsa
+zstyle :omz:plugins:ssh-agent lazy yes
+zstyle :omz:plugins:ssh-agent ssh-add-args -K -c -a $SSH_AUTH_SOCK
 
-# load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Aliases
-alias ls="lsd"
-alias kubens="kubectl-ns" # krew
-alias kubectx="kubectl-ctx" # krew
-
 EXTRA_PATH=(
-  "$HOME/.cargo/bin"
-  "$HOME/.krew/bin"
-  "/snap/bin"
   "$HOME/.yarn/bin"
   "$HOME/.config/yarn/global/node_modules/.bin"
+  "$HOME/.local/share/JetBrains/Toolbox/scripts"
+  "$HOME/Android/Sdk/platform-tools"
 )
 export PATH="$PATH:${(j#:#)EXTRA_PATH}"
-
-if [[ ! -f /run/.containerenv && ! -f /run/.toolboxenv ]]; then
-  # homebrew
-  [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-fi
-
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+alias ls="lsd"
+
