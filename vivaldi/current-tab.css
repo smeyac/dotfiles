@@ -1,8 +1,18 @@
+#tabs-tabbar-container.left .tab {
+  transition: all .2s ease-in;
+}
+
+#tabs-tabbar-container.left .tab:hover {
+  background-color: var(--colorHighlightBgDark);
+}
+
+
+
 #tabs-tabbar-container.left .tab.active {
-  background-color: #fff;
+  background-color: var(--colorHighlightBg);
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
-  color: #555 !important;
+  color: var(--colorHighlightFg) !important;
   font-weight: bold;
   margin-left: -2px;
 }

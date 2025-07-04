@@ -22,3 +22,6 @@
 [submodule "polybar/scripts/polybar-pulseaudio-control"]
 	path = polybar/scripts/polybar-pulseaudio-control
 	url = https://github.com/marioortizmanero/polybar-pulseaudio-control.git
+[submodule "vim/bundle/airline-monokai-subtle"]
+	path = vim/bundle/airline-monokai-subtle
+	url = https://github.com/Yavor-Ivanov/airline-monokai-subtle.vim

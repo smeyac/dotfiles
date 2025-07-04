@@ -7,12 +7,15 @@ autoload -U +X bashcompinit && bashcompinit
 export QT_QPA_PLATFORM=wayland
 export GDK_BACKEND=wayland
 export SUDO_EDITOR=vim
+export EDITOR=vim
 
 export ZSH="/home/meyer/.ohmyzsh"
-plugins=(archlinux colorize dotenv dotnet encode64 fasd git gpg-agent ssh-agent node nvm sudo systemd tmux yarn)
+plugins=(archlinux colorize dotenv dotnet encode64 fasd git gpg-agent ssh-agent node nvm sudo systemd tmux)
 
 ZSH_DOTENV_FILE=.env
-ZSH_THEME="powerlevel10k/powerlevel10k"
+#ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME="pygmalion"
+
 
 zstyle ':completion:*' special-dirs true
 COMPLETION_WAITING_DOTS="true"
@@ -22,6 +25,9 @@ zstyle :omz:plugins:ssh-agent agent-forwarding yes
 zstyle :omz:plugins:ssh-agent identities id_rsa
 zstyle :omz:plugins:ssh-agent lazy yes
 zstyle :omz:plugins:ssh-agent ssh-add-args -K -c -a $SSH_AUTH_SOCK
+
+# requires extra/zsh-syntax-highlighting or aur/zsh-syntax-highlighting-git
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 source $ZSH/oh-my-zsh.sh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -39,4 +45,13 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 alias ls="lsd"
+[ "$TERM" = "xterm-kitty" ] && alias ssh="kitty +kitten ssh"
 
+# yazi
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}

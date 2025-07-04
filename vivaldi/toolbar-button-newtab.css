@@ -1,0 +1,13 @@
+.toolbar .button-toolbar.newtab {
+  width: 100%;
+  min-width: 100%;
+}
+
+.toolbar .button-toolbar.newtab > button.ToolbarButton-Button:hover {
+  transition: all .2s ease-in-out;
+}
+
+
+.toolbar .button-toolbar.newtab > button.ToolbarButton-Button:hover {
+  background-color: var(--colorHighlightBg) !important;
+}
