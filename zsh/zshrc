@@ -13,8 +13,7 @@ export ZSH="/home/meyer/.ohmyzsh"
 plugins=(archlinux colorize dotenv dotnet encode64 fasd git gpg-agent ssh-agent node nvm sudo systemd tmux)
 
 ZSH_DOTENV_FILE=.env
-#ZSH_THEME="powerlevel10k/powerlevel10k"
-ZSH_THEME="pygmalion"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 
 zstyle ':completion:*' special-dirs true

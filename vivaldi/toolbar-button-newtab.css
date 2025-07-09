@@ -1,7 +1,9 @@
 .toolbar .button-toolbar.newtab {
-  width: 100%;
-  min-width: 100%;
+  width: 95%;
+  min-width: 95%;
+  border-radius: 5px;
 }
+
 
 .toolbar .button-toolbar.newtab > button.ToolbarButton-Button:hover {
   transition: all .2s ease-in-out;
@@ -10,4 +12,8 @@
 
 .toolbar .button-toolbar.newtab > button.ToolbarButton-Button:hover {
   background-color: var(--colorHighlightBg) !important;
+}
+
+#tabs-container .resize {
+  margin-bottom: -30px !important;
 }

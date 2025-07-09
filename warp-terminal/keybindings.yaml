@@ -1,0 +1,32 @@
+---
+"pane_group:add_right": alt-shift-right
+"workspace:activate_last_tab": alt-9
+"pane_group:navigate_left": alt-left
+"terminal:select_bookmark_down": none
+"workspace:shift_focus_left": none
+"pane_group:navigate_down": alt-down
+"editor_view:clear_buffer": ctrl-c
+"pane_group:close_current_session": none
+"workspace:close_active_tab": ctrl-shift-W
+"workspace:activate_seventh_tab": alt-7
+"pane_group:add_left": alt-shift-left
+"workspace:activate_prev_tab": ctrl-alt-left
+"workspace:shift_focus_right": none
+"workspace:activate_fifth_tab": alt-5
+"workspace:activate_fourth_tab": alt-4
+"pane_group:add_up": alt-shift-up
+"input:open_completion_suggestions": tab
+"workspace:activate_next_tab": ctrl-alt-right
+"workspace:activate_second_tab": alt-2
+"terminal:select_bookmark_up": none
+"workspace:activate_third_tab": alt-3
+"pane_group:add_down": alt-shift-down
+"terminal:paste": ctrl-v
+"pane_group:navigate_up": alt-up
+"input:toggle_natural_language_command_search": ctrl-.
+"pane_group:navigate_right": alt-right
+Close Env Var Collection: none
+"workspace:activate_sixth_tab": alt-6
+"workspace:activate_eighth_tab": alt-8
+Close Workflow: none
+"workspace:activate_first_tab": alt-1
